@@ -4,17 +4,15 @@ namespace ControllerRestDemo.DAL
 {
     public class UserStorage
     {
+        private readonly UserContext _userContext;
+
         private readonly IDictionary<int, User> _users;
 
         private int _id = 2;
 
         public UserStorage()
         {
-            _users = new Dictionary<int, User>()
-            {
-                { 0, new User("Niklas", "a@a.se")}, 
-                { 1, new User("Johanna", "b@b.se") }
-            };
+            _userContext = new UserContext();
         }
 
         public void Create(User user)
@@ -29,6 +27,11 @@ namespace ControllerRestDemo.DAL
 
         public User? GetUser(int id)
         {
+            if (!_users.Keys.Contains(id))
+            {
+                return null;
+            }
+
             return _users[id];
         }
 
