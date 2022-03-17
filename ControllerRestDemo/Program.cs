@@ -1,10 +1,17 @@
 using ControllerRestDemo.DAL;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<UserStorage>();
+builder.Services.AddDbContext<UserContext>(options =>
+{
+    var connectionString =  builder.Configuration.GetConnectionString("UserDbConnectionString");
+    options.UseSqlServer(connectionString);
+});
+
+builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

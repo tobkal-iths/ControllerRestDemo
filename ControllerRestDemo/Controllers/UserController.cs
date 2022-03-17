@@ -11,18 +11,18 @@ namespace ControllerRestDemo.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly UserStorage _userStorage;
+        private readonly UnitOfWork _unitOfWork;
 
-        public UserController([FromServices] UserStorage userStorage)
+        public UserController([FromServices] UnitOfWork unitOfWork)
         {
-            _userStorage = userStorage;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/User
         [HttpGet]
         public IResult Get()
         {
-            var users = _userStorage.GetAllUsers();
+            var users = _unitOfWork.UserRepository.GetAllUsers();
             return users.Count > 0 ? Results.Ok(users): Results.NotFound();
         }
 
@@ -30,7 +30,7 @@ namespace ControllerRestDemo.Controllers
         [HttpGet("{id}")]
         public IResult Get(int id)
         {
-            var user = _userStorage.GetUser(id);
+            var user = _unitOfWork.UserRepository.GetUser(id);
 
             return user is not null ? Results.Ok(user) : Results.NotFound();
         }
@@ -39,7 +39,8 @@ namespace ControllerRestDemo.Controllers
         [HttpPost]
         public IResult Post([FromBody] User user)
         {
-            _userStorage.Create(user);
+            _unitOfWork.UserRepository.Create(user);
+            _unitOfWork.Save();
             return Results.Ok("TJOHOO");
         }
 
@@ -47,16 +48,16 @@ namespace ControllerRestDemo.Controllers
         [HttpPut("{id}")]
         public IResult Put(int id, [FromBody] User user)
         {
-            _userStorage.UpdateUser(id, user);
+            _unitOfWork.UserRepository.UpdateUser(id, user);
             return Results.Ok();
         }
 
         [HttpPatch("{id}")]
         public IResult Patch(int id, string value)
         {
-            if (_userStorage.UpdateUserName(id, value))
+            if (_unitOfWork.UserRepository.UpdateUserName(id, value))
             {
-                return Results.Ok(_userStorage.GetUser(id));
+                return Results.Ok(_unitOfWork.UserRepository.GetUser(id));
             }
 
             return Results.NotFound();
@@ -66,7 +67,7 @@ namespace ControllerRestDemo.Controllers
         [HttpDelete("{id}")]
         public IResult Delete(int id)
         {
-            _userStorage.DeleteUser(id);
+            _unitOfWork.UserRepository.DeleteUser(id);
             return Results.Ok();
         }
     }

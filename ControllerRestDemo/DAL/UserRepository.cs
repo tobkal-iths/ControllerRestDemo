@@ -2,7 +2,7 @@
 
 namespace ControllerRestDemo.DAL
 {
-    public class UserStorage
+    public class UserRepository : IUserRepository, IDisposable
     {
         private readonly UserContext _userContext;
 
@@ -10,14 +10,14 @@ namespace ControllerRestDemo.DAL
 
         private int _id = 2;
 
-        public UserStorage()
+        public UserRepository(UserContext userContext)
         {
-            _userContext = new UserContext();
+            _userContext = userContext;
         }
 
         public void Create(User user)
         {
-            _users.Add(_id++, user);
+            _userContext.Users.Add(user);
         }
 
         public ICollection<User> GetAllUsers()
@@ -81,6 +81,12 @@ namespace ControllerRestDemo.DAL
             _users.Remove(id);
 
             return true;
+        }
+        
+        public void Dispose()
+        {
+            Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
