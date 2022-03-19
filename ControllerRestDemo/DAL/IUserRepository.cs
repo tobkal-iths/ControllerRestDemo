@@ -2,11 +2,12 @@
 
 namespace ControllerRestDemo.DAL;
 
-public interface IUserRepository : IDisposable
+public interface IUserRepository
 {
     void Create(User user);
     ICollection<User> GetAllUsers();
     User? GetUser(int id);
+    ICollection<Group>? GetUserGroups(int id);
     bool UpdateUser(int id, User user);
     bool UpdateUserName(int id, string name);
     bool UpdateUserEmail(int id, string email);

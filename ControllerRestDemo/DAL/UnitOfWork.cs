@@ -1,10 +1,11 @@
 ﻿namespace ControllerRestDemo.DAL
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork
     {
         private UserContext _userContext;
 
         private IUserRepository _userRepository;
+        private IGroupRepository _groupRepository;
 
         public IUserRepository UserRepository
         {
@@ -19,6 +20,19 @@
             }
         }
 
+        public IGroupRepository GroupRepository
+        {
+            get
+            {
+                if (_groupRepository is null)
+                {
+                    _groupRepository = new GroupRepository(_userContext);
+                }
+
+                return _groupRepository;
+            }
+        }
+
         public UnitOfWork(UserContext userContext)
         {
             _userContext = userContext;
@@ -27,12 +41,6 @@
         public void Save()
         {
             _userContext.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _userContext.Dispose();
-            _userRepository.Dispose();
         }
     }
 }

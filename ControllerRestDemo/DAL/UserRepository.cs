@@ -1,15 +1,12 @@
 ﻿using ControllerRestDemo.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControllerRestDemo.DAL
 {
-    public class UserRepository : IUserRepository, IDisposable
+    public class UserRepository : IUserRepository
     {
         private readonly UserContext _userContext;
-
-        private readonly IDictionary<int, User> _users;
-
-        private int _id = 2;
-
+        
         public UserRepository(UserContext userContext)
         {
             _userContext = userContext;
@@ -22,71 +19,75 @@ namespace ControllerRestDemo.DAL
 
         public ICollection<User> GetAllUsers()
         {
-            return _users.Values;
+            return _userContext.Users.ToList();
         }
 
         public User? GetUser(int id)
         {
-            if (!_users.Keys.Contains(id))
-            {
-                return null;
-            }
+            return _userContext.Users.FirstOrDefault(u => u.Id == id);
+        }
 
-            return _users[id];
+        public ICollection<Group>? GetUserGroups(int id)
+        {
+            var user = _userContext.Users.Include(u=>u.Groups).FirstOrDefault(u=>u.Id == id);
+            if(user is null)
+                return null;
+
+            return user.Groups;
         }
 
         public bool UpdateUser(int id, User user)
         {
-            if (!_users.Keys.Contains(id))
+            var existingUser = _userContext.Users.FirstOrDefault(u => u.Id == id);
+            if (existingUser is null)
             {
                 return false;
             }
 
-            _users[id] = user;
+            user.Id = existingUser.Id;
+
+            existingUser = user;
 
             return true;
         }
 
         public bool UpdateUserName(int id, string name)
         {
-            if (!_users.Keys.Contains(id))
+            var existingUser = _userContext.Users.FirstOrDefault(u => u.Id == id);
+            if (existingUser is null)
             {
                 return false;
             }
 
-            _users[id].Name = name;
+            existingUser.Name = name;
 
             return true;
         }
 
         public bool UpdateUserEmail(int id, string email)
         {
-            if (!_users.Keys.Contains(id))
+            var existingUser = _userContext.Users.FirstOrDefault(u => u.Id == id);
+            if (existingUser is null)
             {
                 return false;
             }
 
-            _users[id].Email = email;
+            existingUser.Email = email;
 
             return true;
         }
 
         public bool DeleteUser(int id)
         {
-            if (!_users.Keys.Contains(id))
+            var existingUser = _userContext.Users.FirstOrDefault(u => u.Id == id);
+            if (existingUser is null)
             {
                 return false;
             }
-
-            _users.Remove(id);
+            _userContext.Users.Remove(existingUser);
 
             return true;
         }
         
-        public void Dispose()
-        {
-            Dispose();
-            GC.SuppressFinalize(this);
-        }
     }
 }

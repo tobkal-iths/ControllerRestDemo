@@ -20,55 +20,62 @@ namespace ControllerRestDemo.Controllers
 
         // GET: api/User
         [HttpGet]
-        public IResult Get()
+        public IActionResult Get()
         {
             var users = _unitOfWork.UserRepository.GetAllUsers();
-            return users.Count > 0 ? Results.Ok(users): Results.NotFound();
+            return users.Count > 0 ? Ok(users): NotFound();
         }
 
         // GET api/User/5
         [HttpGet("{id}")]
-        public IResult Get(int id)
+        public IActionResult Get(int id)
         {
             var user = _unitOfWork.UserRepository.GetUser(id);
 
-            return user is not null ? Results.Ok(user) : Results.NotFound();
+            return user is not null ? Ok(user) : NotFound();
+        }
+        [HttpGet("{id}/groups")]
+        public IActionResult GetUserGroups(int id)
+        {
+            var user = _unitOfWork.UserRepository.GetUserGroups(id);
+
+            return user is not null ? Ok(user) : NotFound();
         }
 
         // POST api/User
         [HttpPost]
-        public IResult Post([FromBody] User user)
+        public IActionResult Post([FromBody] User user)
         {
             _unitOfWork.UserRepository.Create(user);
             _unitOfWork.Save();
-            return Results.Ok("TJOHOO");
+            return Ok();
         }
 
         // PUT api/User/5
         [HttpPut("{id}")]
-        public IResult Put(int id, [FromBody] User user)
+        public IActionResult Put(int id, [FromBody] User user)
         {
             _unitOfWork.UserRepository.UpdateUser(id, user);
-            return Results.Ok();
+            return Ok();
         }
 
         [HttpPatch("{id}")]
-        public IResult Patch(int id, string value)
+        public IActionResult Patch(int id, string value)
         {
             if (_unitOfWork.UserRepository.UpdateUserName(id, value))
             {
-                return Results.Ok(_unitOfWork.UserRepository.GetUser(id));
+                return Ok(_unitOfWork.UserRepository.GetUser(id));
             }
 
-            return Results.NotFound();
+            return NotFound();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public IResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             _unitOfWork.UserRepository.DeleteUser(id);
-            return Results.Ok();
+            return Ok();
         }
     }
 }
