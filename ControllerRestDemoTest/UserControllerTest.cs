@@ -27,6 +27,7 @@ public class UserControllerTest
         //Arrange
         var fakeUser = A.Dummy<User>();
         var unitOfWork = A.Fake<IUnitOfWork>();
+        A.CallTo(() => unitOfWork.UserRepository.Create(fakeUser)).Returns(true);
         var controller = new UserController(unitOfWork);
 
         //Act
