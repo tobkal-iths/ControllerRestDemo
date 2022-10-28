@@ -12,9 +12,13 @@ namespace ControllerRestDemo.DAL
             _userContext = userContext;
         }
 
-        public void Create(User user)
+        public bool Create(User user)
         {
+            if(_userContext.Users.Any(u=>u.Name == user.Name))
+                return false;
             _userContext.Users.Add(user);
+            _userContext.SaveChanges();
+            return true;
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -47,7 +51,7 @@ namespace ControllerRestDemo.DAL
             user.Id = existingUser.Id;
 
             existingUser = user;
-
+            _userContext.SaveChanges();
             return true;
         }
 
@@ -60,7 +64,7 @@ namespace ControllerRestDemo.DAL
             }
 
             existingUser.Name = name;
-
+            _userContext.SaveChanges();
             return true;
         }
 
@@ -73,7 +77,7 @@ namespace ControllerRestDemo.DAL
             }
 
             existingUser.Email = email;
-
+            _userContext.SaveChanges();
             return true;
         }
 
@@ -85,7 +89,7 @@ namespace ControllerRestDemo.DAL
                 return false;
             }
             _userContext.Users.Remove(existingUser);
-
+            _userContext.SaveChanges();
             return true;
         }
         

@@ -32,7 +32,6 @@ namespace ControllerRestDemo.Controllers
         public IActionResult SaveGroup([FromBody] Group group)
         {
             _unitOfWork.GroupRepository.Create(group);
-            _unitOfWork.Save();
             return Ok();
         }
 
@@ -40,7 +39,6 @@ namespace ControllerRestDemo.Controllers
         public IActionResult AddUserToGroup(int id, int userId)
         {
             _unitOfWork.GroupRepository.AddUserToGroup(id, userId);
-            _unitOfWork.Save();
             return Ok();
         }
     }

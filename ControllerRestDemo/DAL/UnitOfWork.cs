@@ -37,10 +37,5 @@
         {
             _userContext = userContext;
         }
-
-        public void Save()
-        {
-            _userContext.SaveChanges();
-        }
     }
 }
