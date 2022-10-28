@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerRestDemo", "ControllerRestDemo\ControllerRestDemo.csproj", "{311367D8-AEBA-449E-B6C3-52C3AE750F7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerRestDemo", "ControllerRestDemo\ControllerRestDemo.csproj", "{311367D8-AEBA-449E-B6C3-52C3AE750F7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerRestDemoTest", "ControllerRestDemoTest\ControllerRestDemoTest.csproj", "{E338BC4A-C6F8-41D5-95A5-7804D4380A51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{311367D8-AEBA-449E-B6C3-52C3AE750F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311367D8-AEBA-449E-B6C3-52C3AE750F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311367D8-AEBA-449E-B6C3-52C3AE750F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E338BC4A-C6F8-41D5-95A5-7804D4380A51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E338BC4A-C6F8-41D5-95A5-7804D4380A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E338BC4A-C6F8-41D5-95A5-7804D4380A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E338BC4A-C6F8-41D5-95A5-7804D4380A51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

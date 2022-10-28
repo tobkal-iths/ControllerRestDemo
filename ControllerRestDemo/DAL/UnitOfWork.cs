@@ -1,6 +1,6 @@
 ﻿namespace ControllerRestDemo.DAL
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private UserContext _userContext;
 

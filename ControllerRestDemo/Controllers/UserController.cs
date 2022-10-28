@@ -11,31 +11,32 @@ namespace ControllerRestDemo.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController([FromServices] UnitOfWork unitOfWork)
+        public UserController([FromServices] IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         // GET: api/User
         [HttpGet]
-        public IActionResult Get()
+        public async Task<ActionResult<IEnumerable<User>>> Get()
         {
             var users = _unitOfWork.UserRepository.GetAllUsers();
-            return users.Count > 0 ? Ok(users): NotFound();
+            return users.Any() ? Ok(users): NotFound();
         }
 
         // GET api/User/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var user = _unitOfWork.UserRepository.GetUser(id);
 
             return user is not null ? Ok(user) : NotFound();
         }
+
         [HttpGet("{id}/groups")]
-        public IActionResult GetUserGroups(int id)
+        public async Task<IActionResult> GetUserGroups(int id)
         {
             var user = _unitOfWork.UserRepository.GetUserGroups(id);
 
@@ -44,7 +45,7 @@ namespace ControllerRestDemo.Controllers
 
         // POST api/User
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        public async Task<ActionResult> Post([FromBody] User user)
         {
             _unitOfWork.UserRepository.Create(user);
             _unitOfWork.Save();
@@ -53,14 +54,14 @@ namespace ControllerRestDemo.Controllers
 
         // PUT api/User/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User user)
+        public async Task<IActionResult> Put(int id, [FromBody] User user)
         {
             _unitOfWork.UserRepository.UpdateUser(id, user);
             return Ok();
         }
 
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, string value)
+        public async Task<IActionResult> Patch(int id, string value)
         {
             if (_unitOfWork.UserRepository.UpdateUserName(id, value))
             {
@@ -72,7 +73,7 @@ namespace ControllerRestDemo.Controllers
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             _unitOfWork.UserRepository.DeleteUser(id);
             return Ok();

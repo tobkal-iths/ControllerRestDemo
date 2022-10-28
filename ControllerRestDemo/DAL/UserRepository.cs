@@ -17,7 +17,7 @@ namespace ControllerRestDemo.DAL
             _userContext.Users.Add(user);
         }
 
-        public ICollection<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             return _userContext.Users.ToList();
         }
