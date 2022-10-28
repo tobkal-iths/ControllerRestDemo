@@ -47,6 +47,10 @@ namespace ControllerRestDemo.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] User user)
         {
+            if (_unitOfWork.UserRepository.GetAllUsers().Any(u=>u.Name == user.Name))
+            {
+                return BadRequest("User exists!");
+            }
             _unitOfWork.UserRepository.Create(user);
             _unitOfWork.Save();
             return Ok();

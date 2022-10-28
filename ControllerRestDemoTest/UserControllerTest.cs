@@ -32,21 +32,14 @@ namespace ControllerRestDemoTest
         public async Task PostUser_Saves_User()
         {
             //Arrange
+            var fakeUser = A.Dummy<User>();
             var unitOfWork = A.Fake<IUnitOfWork>();
             var controller = new UserController(unitOfWork);
-
-            var user = new User()
-            {
-                Id = 1,
-                Email = "a@a.com",
-                Name = "Niklas"
-            };
-
+            
             //Act
-            var actionResult = await controller.Post(user);
+            var actionResult = await controller.Post(fakeUser);
 
             //Assert
-            
             Assert.True(actionResult is OkResult);
         }
     }
