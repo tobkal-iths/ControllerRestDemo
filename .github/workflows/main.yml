@@ -7,6 +7,10 @@ on:
     branches:
     - main
 
+env:
+      Solution_Name: ControllerRestDemo.sln
+      Test_Project_Path: /ControllerRestDemoTest/ControllerRestDemoTest.csproj
+
 jobs:
   test-job:
     name: Test job
