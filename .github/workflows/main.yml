@@ -7,14 +7,15 @@ on:
     branches:
     - main
 
-env:
-      Solution_Name: ControllerRestDemo.sln
-      Test_Project_Path: /ControllerRestDemoTest/ControllerRestDemoTest.csproj
-
 jobs:
-  test-job:
+  test:
     name: Test job
     runs-on: ubuntu-latest
+    
+    
+    env:
+      Solution_Name: ControllerRestDemo.sln
+      Test_Project_Path: /ControllerRestDemoTest/ControllerRestDemoTest.csproj
 
     steps:
     - name: .NET build
