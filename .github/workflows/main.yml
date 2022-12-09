@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+    - main
+    - release/*
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  test-job:
+    name: Test job
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: .NET build
+      run: dotnet build
+      
+    - name: .NET test
+      run: dotnet test
